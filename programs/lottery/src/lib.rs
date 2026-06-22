@@ -9,6 +9,7 @@ use anchor_spl::{
     metadata::Metadata,
     token_interface::{Mint, TokenAccount, TokenInterface, MintTo, mint_to},
 };
+use switchboard_on_demand::accounts::RandomnessAccountData;
 
 // pub use constants::*;
 // pub use instructions::*;
@@ -106,6 +107,39 @@ use super::*;
 
         Ok(())
     }
+
+    pub fn commit_randomness(ctx: Context<CommitRandomness>) -> Result<()> {
+        let clock = Clock::get()?;
+        let token_lottery = &mut ctx.accounts.token_lottery;
+        if ctx.accounts.payer.key() != token_lottery.authority {
+            return Err(ErrorCode::NotAuthorized.into())
+        }
+        let randomness_data = RandomnessAccountData::parse(ctx.accounts.randomness_account.data.borrow()).unwrap();
+
+        if randomness_data.seed_slot != clock.slot -1 {
+            return Err(ErrorCode::RandomnessAlreadyRevealed.into())
+        }
+
+        token_lottery.randomness_account = ctx.accounts.randomness_account.key();
+        Ok(())
+    }
+}
+
+#[derive(Account)] 
+pub struct CommitRandomness<'info> {
+    #[account(mut)]
+    pub payer: Signer<'info>,
+
+    #[account(
+        mut,
+        seeds = [b"token_lottery".as_ref()],
+        bump
+    )]
+    pub token_lottery: Account<'info, TokenLottery>,
+
+    pub randomness_account: UncheckedAccount<'info>,
+
+    pub system_program: Program<'info, System>
 }
 
 #[derive(Accounts)]
@@ -278,4 +312,8 @@ pub struct TokenLottery {
 pub enum ErrorCode {
     #[msg("Lottery is not open")]
     LotteryNotOpen,
+    #[msg("Not Authorized")]
+    NotAuthorized,
+    #[msg("Randomness Already Revealed")]
+    RandomnessAlreadyRevealed,
 }
