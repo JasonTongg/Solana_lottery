@@ -14,7 +14,7 @@ use anchor_spl::{
 // pub use instructions::*;
 // pub use state::*;
 
-declare_id!("xEdyqr3GsKTevvWHzef1AznGgT9x23ft6aFiNag1ksS");
+declare_id!("7J7gXGrdLw118Ewx38fHztkhiaqKZ3aJsjm57R5epTLC");
 
 #[constant]
 pub const NAME: &str = "Token Lottery Ticket #";
