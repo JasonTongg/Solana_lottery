@@ -24,6 +24,7 @@ custom-panic = []
 anchor-lang = "1.0.1"
 anchor-spl = { version = "1.0.1", features = ["metadata"] }
 
+
 [dev-dependencies]
 litesvm = "0.10.0"
 solana-message = "3.0.1"

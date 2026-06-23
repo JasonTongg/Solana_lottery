@@ -7,7 +7,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-lottery = "7J7gXGrdLw118Ewx38fHztkhiaqKZ3aJsjm57R5epTLC"
+lottery = "xEdyqr3GsKTevvWHzef1AznGgT9x23ft6aFiNag1ksS"
 
 [provider]
 cluster = "localnet"
