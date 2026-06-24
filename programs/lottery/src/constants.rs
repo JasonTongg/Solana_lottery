@@ -1,4 +1,10 @@
-// use anchor_lang::prelude::*;
+use anchor_lang::prelude::*;
 
-// #[constant]
-// pub const SEED: &str = "anchor";
+#[constant]
+pub const NAME: &str = "Token Lottery Ticket #";
+
+#[constant]
+pub const SYMBOL: &str = "TLT";
+
+#[constant]
+pub const URI: &str = "https://ticketimage.png";
