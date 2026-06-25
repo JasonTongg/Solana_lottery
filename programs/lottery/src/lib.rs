@@ -7,8 +7,19 @@ pub mod state;
 pub(crate) mod switchboard;
 
 pub use error::ErrorCode;
-pub use instructions::*;
 pub use state::TokenLottery;
+
+// Re-export account structs so they're in scope via `use super::*` inside #[program]
+pub use instructions::{BuyTicket, ClaimWinnings, CommitRandomness, Initialize, InitializeLottery, RevealWinner};
+
+// The #[program] macro generates `pub use crate::__client_accounts_<Struct>::*`
+// so each __client_accounts_* module must exist at the crate root.
+pub(crate) use instructions::buy_ticket::__client_accounts_buy_ticket;
+pub(crate) use instructions::claim_winnings::__client_accounts_claim_winnings;
+pub(crate) use instructions::commit_randomness::__client_accounts_commit_randomness;
+pub(crate) use instructions::initialize_config::__client_accounts_initialize;
+pub(crate) use instructions::initialize_lottery::__client_accounts_initialize_lottery;
+pub(crate) use instructions::reveal_winner::__client_accounts_reveal_winner;
 
 declare_id!("xEdyqr3GsKTevvWHzef1AznGgT9x23ft6aFiNag1ksS");
 
