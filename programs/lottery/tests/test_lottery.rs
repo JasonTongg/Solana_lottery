@@ -167,6 +167,7 @@ fn ix_reveal_winner(payer: Pubkey, randomness_key: Pubkey) -> Instruction {
             AccountMeta::new(payer, true),
             AccountMeta::new(pda, false),
             AccountMeta::new_readonly(randomness_key, false),
+            AccountMeta::new_readonly(system_program::ID, false),
         ],
     )
 }
